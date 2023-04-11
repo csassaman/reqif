@@ -13,6 +13,7 @@ from reqif.parsers.spec_object_parser import (
     ATTRIBUTE_DATE_TEMPLATE,
     ATTRIBUTE_STRING_TEMPLATE,
     ATTRIBUTE_XHTML_TEMPLATE,
+    ATTRIBUTE_ENUMERATION_TEMPLATE,
 )
 
 
@@ -109,6 +110,25 @@ class ReqIFSpecificationParser:
                         value=attribute_value,
                     )
                     values.append(values_attribute)
+                elif xml_attribute.tag == "ATTRIBUTE-VALUE-ENUMERATION":
+                    enum_definition_ref = (
+                        xml_attribute.find("DEFINITION")
+                        .find("ATTRIBUTE-DEFINITION-ENUMERATION-REF")
+                        .text
+                    )
+                    attribute_value = (
+                        xml_attribute.find("VALUES")
+                        .find("ENUM-VALUE-REF")
+                        .text
+                    )
+
+                    values_attribute = SpecObjectAttribute(
+                        xml_node=xml_attribute,
+                        attribute_type=SpecObjectAttributeType.ENUMERATION,
+                        definition_ref=enum_definition_ref,
+                        value=attribute_value,
+                    )
+                    values.append(values_attribute)
                 else:
                     raise NotImplementedError(xml_attribute)
         return ReqIFSpecification(
@@ -194,6 +214,14 @@ class ReqIFSpecificationParser:
                                 output += ATTRIBUTE_STRING_TEMPLATE.format(
                                     definition_ref=xml_attribute.definition_ref,
                                     value=xml_attribute.value,
+                                )
+                            elif (
+                                xml_attribute.attribute_type
+                                == SpecObjectAttributeType.ENUMERATION
+                            ):
+                                output += ATTRIBUTE_ENUMERATION_TEMPLATE.format(
+                                    definition_ref=xml_attribute.definition_ref,
+                                    values=xml_attribute.value,
                                 )
                             else:
                                 raise NotImplementedError(

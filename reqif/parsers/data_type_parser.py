@@ -2,6 +2,7 @@ from typing import List, Optional, Union
 
 from lxml import etree
 
+from reqif.helpers.string import escape
 from reqif.helpers.lxml import lxml_is_self_closed_tag
 from reqif.models.reqif_data_type import (
     ReqIFDataTypeDefinitionBoolean,
@@ -198,7 +199,7 @@ class DataTypeParser:
             if data_type_definition.last_change:
                 output += f' LAST-CHANGE="{data_type_definition.last_change}"'
             if data_type_definition.long_name:
-                output += f' LONG-NAME="{data_type_definition.long_name}"'
+                output += f' LONG-NAME="{escape.reqif_escape(data_type_definition.long_name)}"'
             if data_type_definition.max_length:
                 output += f' MAX-LENGTH="{data_type_definition.max_length}"'
             if data_type_definition.is_self_closed:
@@ -216,7 +217,7 @@ class DataTypeParser:
             if data_type_definition.last_change:
                 output += f' LAST-CHANGE="{data_type_definition.last_change}"'
             if data_type_definition.long_name:
-                output += f' LONG-NAME="{data_type_definition.long_name}"'
+                output += f' LONG-NAME="{escape.reqif_escape(data_type_definition.long_name)}"'
             if data_type_definition.is_self_closed:
                 output += "/>\n"
             else:
@@ -231,7 +232,7 @@ class DataTypeParser:
             if data_type_definition.last_change:
                 output += f' LAST-CHANGE="{data_type_definition.last_change}"'
             if data_type_definition.long_name:
-                output += f' LONG-NAME="{data_type_definition.long_name}"'
+                output += f' LONG-NAME="{escape.reqif_escape(data_type_definition.long_name)}"'
             if data_type_definition.max_value is not None:
                 output += f' MAX="{data_type_definition.max_value}"'
             if data_type_definition.min_value is not None:
@@ -255,7 +256,7 @@ class DataTypeParser:
             if data_type_definition.last_change is not None:
                 output += f' LAST-CHANGE="{data_type_definition.last_change}"'
             if data_type_definition.long_name is not None:
-                output += f' LONG-NAME="{data_type_definition.long_name}"'
+                output += f' LONG-NAME="{escape.reqif_escape(data_type_definition.long_name)}"'
 
             if data_type_definition.max_value is not None:
                 output += f' MAX="{data_type_definition.max_value}"'
@@ -273,7 +274,7 @@ class DataTypeParser:
             if data_type_definition.last_change:
                 output += f' LAST-CHANGE="{data_type_definition.last_change}"'
             if data_type_definition.long_name:
-                output += f' LONG-NAME="{data_type_definition.long_name}"'
+                output += f' LONG-NAME="{escape.reqif_escape(data_type_definition.long_name)}"'
             if data_type_definition.is_self_closed:
                 output += "/>\n"
             else:
@@ -290,7 +291,7 @@ class DataTypeParser:
                     if value.last_change is not None:
                         output += f' LAST-CHANGE="{value.last_change}"'
                     if value.long_name is not None:
-                        output += f' LONG-NAME="{value.long_name}"'
+                        output += f' LONG-NAME="{escape.reqif_escape(value.long_name)}"'
                     output += ">\n"
 
                     output += "              <PROPERTIES>\n"
