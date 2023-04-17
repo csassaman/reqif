@@ -1,4 +1,5 @@
 from typing import List, Optional
+import html
 
 from reqif.helpers.lxml import lxml_is_self_closed_tag
 from reqif.models.reqif_spec_object_type import (
@@ -170,12 +171,12 @@ class SpecificationTypeParser:
 
         output += "        <SPECIFICATION-TYPE"
         if spec_type.description is not None:
-            output += f' DESC="{spec_type.description}"'
+            output += f' DESC="{html.escape(spec_type.description)}"'
         output += f' IDENTIFIER="{spec_type.identifier}"'
         if spec_type.last_change is not None:
             output += f' LAST-CHANGE="{spec_type.last_change}"'
         if spec_type.long_name is not None:
-            output += f' LONG-NAME="{spec_type.long_name}"'
+            output += f' LONG-NAME="{html.escape(spec_type.long_name)}"'
 
         # Some documents have a SPECIFICATION-TYPE without any SPEC-ATTRIBUTES.
         if spec_type.is_self_closed:
@@ -194,14 +195,14 @@ class SpecificationTypeParser:
                     f"{attribute.attribute_type.get_spec_type_tag()}"
                 )
                 if attribute.description is not None:
-                    output += f' DESC="{attribute.description}"'
+                    output += f' DESC="{html.escape(attribute.description)}"'
                 output += f' IDENTIFIER="{attribute.identifier}"'
                 if attribute.editable is not None:
                     editable_value = "true" if attribute.editable else "false"
                     output += f' IS-EDITABLE="{editable_value}"'
                 if attribute.last_change:
                     output += f' LAST-CHANGE="{attribute.last_change}"'
-                output += f' LONG-NAME="{attribute.long_name}"'
+                output += f' LONG-NAME="{html.escape(attribute.long_name)}"'
                 output += ">\n"
                 output += "              <TYPE>\n"
                 output += (

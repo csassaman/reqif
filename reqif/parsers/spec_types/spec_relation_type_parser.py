@@ -47,7 +47,7 @@ class SpecRelationTypeParser:
         if spec_relation_type.last_change is not None:
             output += f' LAST-CHANGE="{spec_relation_type.last_change}"'
         if spec_relation_type.long_name is not None:
-            output += f' LONG-NAME="{spec_relation_type.long_name}"'
+            output += f' LONG-NAME="{html.escape(spec_relation_type.long_name)}"'
         if spec_relation_type.is_self_closed:
             output += "/>\n"
         else:

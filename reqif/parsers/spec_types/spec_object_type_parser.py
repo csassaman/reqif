@@ -324,7 +324,7 @@ class SpecObjectTypeParser:
         if spec_type.last_change is not None:
             output += f' LAST-CHANGE="{spec_type.last_change}"'
         if spec_type.long_name is not None:
-            output += f' LONG-NAME="{spec_type.long_name}"'
+            output += f' LONG-NAME="{html.escape(spec_type.long_name)}"'
         output += ">\n"
 
         if spec_type.attribute_definitions is not None:
@@ -346,7 +346,7 @@ class SpecObjectTypeParser:
         output = ""
         output += f"            <{attribute.attribute_type.get_spec_type_tag()}"
         if attribute.description is not None:
-            output += f' DESC="{attribute.description}"'
+            output += f' DESC="{html.escape(attribute.description)}"'
         output += f' IDENTIFIER="{attribute.identifier}"'
         if attribute.editable is not None:
             editable_value = "true" if attribute.editable else "false"
@@ -354,7 +354,7 @@ class SpecObjectTypeParser:
         if attribute.last_change:
             output += f' LAST-CHANGE="{attribute.last_change}"'
         if attribute.long_name:
-            output += f' LONG-NAME="{attribute.long_name}"'
+            output += f' LONG-NAME="{html.escape(attribute.long_name)}"'
         if attribute.multi_valued is not None:
             multi_valued_value = "true" if attribute.multi_valued else "false"
             output += f' MULTI-VALUED="{multi_valued_value}"'
